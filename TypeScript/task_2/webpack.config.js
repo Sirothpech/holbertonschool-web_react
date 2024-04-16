@@ -16,11 +16,6 @@ module.exports = {
           transpileOnly: true
         }
       },
-      // Ajoutez cette règle pour exclure les fichiers .d.ts
-      {
-        test: /\.d\.ts$/,
-        loader: 'ignore-loader'
-      }
     ]
   },
   resolve: {
