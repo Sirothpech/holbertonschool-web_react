@@ -15,7 +15,7 @@ const student1: Student = {
   const student2: Student = {
 	firstName: 'Tito',
 	lastName: 'Azer',
-	age: 39,
+	age: 40,
 	location: 'Paris',
   };
 
@@ -29,13 +29,19 @@ function renderStudentsTable(students: Student[]) {
 	students.forEach((student) => {
 	  const row = document.createElement('tr');
 	  const firstNameCell = document.createElement('td');
+	  const lastNameCell = document.createElement('td');
 	  const locationCell = document.createElement('td');
+	  const ageCell = document.createElement('td');
   
 	  firstNameCell.textContent = student.firstName;
+	  lastNameCell.textContent = student.lastName;
 	  locationCell.textContent = student.location;
+	  ageCell.textContent = student.age.toString();
   
 	  row.appendChild(firstNameCell);
+	  row.appendChild(lastNameCell);
 	  row.appendChild(locationCell);
+	  row.appendChild(ageCell);
 	  tbody.appendChild(row);
 	});
   
