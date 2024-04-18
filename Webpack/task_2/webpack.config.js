@@ -10,13 +10,12 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/,
+        test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(gif|png|jpg|jpeg|svg)$/i,
                 use: [
-                  "file-loader",
                     {
                         loader: 'image-webpack-loader',
                         options: {
