@@ -1,6 +1,5 @@
 node_modules
 package-lock.json
-package.json
 TypeScript/task_2/dist/bundle.js
 TypeScript/task_2/dist/index.html
 TypeScript/task_0/dist/bundle.js
