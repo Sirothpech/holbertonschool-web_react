@@ -1,7 +1,6 @@
 /* main.css */
 #count {
-	display: inline-block;
-	margin-left: 10px;
+	display: inline;
 	font-weight: bold;
   }
 
