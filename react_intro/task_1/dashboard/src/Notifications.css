@@ -1,0 +1,8 @@
+:root {
+	--red: #E0354B;
+  }
+
+.Notifications {
+	border: 1px solid var(--red);
+	padding: 5px;
+}
