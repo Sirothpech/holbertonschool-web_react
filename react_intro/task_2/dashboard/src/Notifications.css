@@ -3,6 +3,24 @@
   }
 
 .Notifications {
-	border: 1px solid var(--red);
+	border: 1px dashed var(--red);
 	padding: 5px;
 }
+
+.Notifications img {
+	background: white;
+	width: 15px;
+}
+
+.Notifications button {
+	border: none;
+	padding: 0;
+}
+
+[data-priority="default"] {
+	color: #210A66;
+  }
+  
+  [data-priority="urgent"] {
+	color: red;
+  }
