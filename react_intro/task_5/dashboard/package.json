@@ -36,6 +36,9 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.24.4",
+    "@babel/preset-env": "^7.24.4",
+    "@babel/preset-react": "^7.24.1",
     "css-loader": "^7.1.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.8",
