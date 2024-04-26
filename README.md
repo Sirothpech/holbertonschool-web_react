@@ -2,3 +2,4 @@
 - Typescript
 - Webpack
 - React Intro
+- React props
