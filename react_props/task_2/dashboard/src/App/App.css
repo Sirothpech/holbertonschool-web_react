@@ -1,0 +1,9 @@
+:root {
+  --red: #E0354B;
+}
+
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,9 @@
+.App-body {
+	text-align: left;
+	font-size: large;
+	margin: 50px;
+  }
+
+.App-body input {
+	margin: 10px;
+  }
