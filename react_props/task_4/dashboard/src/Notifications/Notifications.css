@@ -1,0 +1,27 @@
+:root {
+	--red: #E0354B;
+  }
+
+.Notifications {
+	border: 1px dashed var(--red);
+	padding: 5px;
+}
+
+.Notifications img {
+	background: white;
+	width: 15px;
+}
+
+.Notifications button {
+	border: none;
+	background: none;
+	padding: 0;
+}
+
+[data-notification-type="default"] {
+	color: #210A66;
+  }
+  
+[data-notification-type="urgent"] {
+	color: red;
+}
