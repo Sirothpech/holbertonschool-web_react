@@ -4,3 +4,4 @@
 - React Intro
 - React props
 - React component
+- React inline styling
