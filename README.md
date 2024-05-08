@@ -3,3 +3,4 @@
 - Webpack
 - React Intro
 - React props
+- React component
