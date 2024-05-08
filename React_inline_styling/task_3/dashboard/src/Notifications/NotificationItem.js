@@ -5,11 +5,23 @@ import { StyleSheet, css } from 'aphrodite';
 const styles = StyleSheet.create({
   defaultNotification: {
     color: 'blue',
-    textAlign: 'left'
+    textAlign: 'left',
+    '@media (max-width: 900px)': {
+      fontSize: '20px', 
+      padding: '10px 8px', 
+      listStyle: 'none',
+      borderBottom: '1px black solid',
+    }
   },
   urgentNotification: {
     color: 'red',
-    textAlign: 'left'
+    textAlign: 'left',
+    '@media (max-width: 900px)': {
+      fontSize: '20px', 
+      padding: '10px 8px', 
+      listStyle: 'none',
+      borderBottom: '1px black solid',
+    },
   }
 });
 

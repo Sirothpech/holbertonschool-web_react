@@ -16,15 +16,34 @@ export const styles = StyleSheet.create({
     position: 'relative',
     padding: '0.8rem',
     border: '1px dashed #df354b',
-    marginRight: '2rem',
-    marginBottom: '0.8rem'
+    marginRight: '1rem',
+    marginBottom: '0.8rem',
+    '@media (max-width: 900px)': {
+      position: 'fixed',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      zIndex: 9999,
+      backgroundColor: 'white',
+      width: '100%',
+      height: '100vh',
+      border: 'none',
+      padding: 0, 
+      fontSize: '20px',
+    },
   },
   sectionTitle: {
-    marginBottom: '0.3rem'
+    marginBottom: '0.3rem',
+    '@media (max-width: 900px)': {
+      position: 'absolute',
+      top: '0',
+      right: '1rem'
+    },
   },
   menuItem: {
     textAlign: 'right',
-    marginRight: '2rem',
+    marginRight: '1rem',
     marginBottom: '0.2rem',
   },
   button: {
@@ -40,6 +59,9 @@ export const styles = StyleSheet.create({
   },
   notificationList: {
     marginTop: '0.5rem',
+    '@media (max-width: 900px)': {
+      padding: 0,
+    },
   },
 });
 
@@ -87,7 +109,7 @@ class Notifications extends Component {
             <button aria-label="Close" onClick={this.handleClick.bind(this)} className={css(styles.button)}>
               <img src={closeIcon} alt="Close" className={css(styles.buttonImg)}/>
             </button>
-          </div>
+            </div>
         )}
       </div>
     );

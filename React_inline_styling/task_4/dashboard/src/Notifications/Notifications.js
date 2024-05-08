@@ -5,6 +5,27 @@ import closeIcon from '../assets/close-icon.png';
 import NotificationItem from './NotificationItem';
 import NotificationItemShape from './NotificationItemShape';
 
+const opacity = {
+  from: {
+    opacity: 0.5,
+  },
+  to: {
+    opacity: 1,
+  },
+};
+
+const bounce = {
+  '0%': {
+    transform: 'translateY(5px)',
+  },
+  '50%': {
+    transform: 'translateY(-5px)',
+  },
+  '100%': {
+    transform: 'translateY(0)',
+  },
+};
+
 export const styles = StyleSheet.create({
   notificationHidden: {
     display: 'none',
@@ -16,16 +37,46 @@ export const styles = StyleSheet.create({
     position: 'relative',
     padding: '0.8rem',
     border: '1px dashed #df354b',
-    marginRight: '2rem',
-    marginBottom: '0.8rem'
+    marginRight: '1rem',
+    marginBottom: '0.8rem',
+    '@media (max-width: 900px)': {
+      position: 'fixed',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      zIndex: 9999,
+      backgroundColor: 'white',
+      width: '100%',
+      height: '100vh',
+      border: 'none',
+      padding: 0, 
+      fontSize: '20px',
+    },
   },
   sectionTitle: {
-    marginBottom: '0.3rem'
+    marginBottom: '0.3rem',
+    '@media (max-width: 900px)': {
+      position: 'absolute',
+      top: '0',
+      right: '1rem'
+    },
   },
   menuItem: {
     textAlign: 'right',
-    marginRight: '2rem',
+    marginRight: '1rem',
     marginBottom: '0.2rem',
+    float: 'right',
+    backgroundColor: '#fff8f8',
+    cursor: 'pointer',
+    ':hover': {
+      animationName: [opacity, bounce],
+      animationDuration: '1s, 0.5s',
+      animationIterationCount: '3',
+    },
+    '@media (max-width: 900px)': {
+      display: 'none',
+    },
   },
   button: {
     position: 'absolute',
@@ -40,6 +91,9 @@ export const styles = StyleSheet.create({
   },
   notificationList: {
     marginTop: '0.5rem',
+    '@media (max-width: 900px)': {
+      padding: 0,
+    },
   },
 });
 
@@ -58,13 +112,17 @@ class Notifications extends Component {
 
   render() {
     const { displayDrawer, listNotifications } = this.props;
+    const showMenuItem = !displayDrawer || listNotifications.length === 0;
     const notificationStyle = displayDrawer ? styles.notificationVisible : styles.notificationHidden;
-
+    
     return (
       <div className='notification-container'>
-        <div className={css(styles.menuItem)}>
-          <p className={css(styles.sectionTitle)}>Your notifications</p>
-        </div>
+        {showMenuItem && (
+          <div className={css(styles.menuItem)}>
+            <p className={css(styles.sectionTitle)}>Your notifications</p>
+          </div>
+        )}
+        
         {displayDrawer && (
           <div className={css(notificationStyle)}>
             {listNotifications.length > 0 && <p>Here is the list of notifications</p>}
@@ -87,7 +145,7 @@ class Notifications extends Component {
             <button aria-label="Close" onClick={this.handleClick.bind(this)} className={css(styles.button)}>
               <img src={closeIcon} alt="Close" className={css(styles.buttonImg)}/>
             </button>
-          </div>
+            </div>
         )}
       </div>
     );
