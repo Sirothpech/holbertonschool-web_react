@@ -101,7 +101,7 @@ class App extends Component {
         <div className={css(styles.header)}>
           <Header />
           <Notifications 
-          displayDrawer={displayDrawer}
+          displayDrawer={this.state.displayDrawer}
           handleDisplayDrawer={this.handleDisplayDrawer}
           handleHideDrawer={this.handleHideDrawer}
           listNotifications={listNotifications} />
