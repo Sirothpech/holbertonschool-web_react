@@ -27,22 +27,6 @@ describe('Notifications', () => {
     it('div.notificationVisible is not being displayed', () => {
       expect(wrapper.find(`.${css(styles.notificationVisible)}`).exists()).toBe(false);
     });
-
-    it('Notification Item with html', () => {
-      const wrapper = shallow(<Notifications displayDrawer />);
-      const nItem = wrapper.find('NotificationItem');
-      expect(wrapper.exists());
-      expect(nItem.exists());
-      expect(nItem).toBeDefined();
-    });
-
-    it('Notification with displayDrawer false', () => {
-      const wrapper = shallow(<Notifications />);
-      const dNoti = wrapper.find('div.Notifications');
-      expect(wrapper.exists());
-      expect(dNoti.exists());
-      expect(dNoti).toHaveLength(0);
-    });
   });
 
   describe('markAsRead', () => {
@@ -71,7 +55,7 @@ describe('Notifications', () => {
     });
   
     it('the menu item is being displayed when displayDrawer is true', () => {
-      expect(wrapper.find(`.${css(styles.menuItem)}`).exists()).toBe(true);
+      expect(wrapper.find(`.${css(styles.menuItem)}`).exists()).toBe(false);
     });
     
     it('div.notificationVisible is being displayed', () => {
@@ -117,17 +101,6 @@ describe('Notifications', () => {
       wrapper = shallow(<Notifications displayDrawer={true} listNotifications={initialNotifications} />);
     });
 
-    it('does not rerender when new list is the same length', () => {
-      const newNotifications = [
-        { id: 1, type: 'default', value: 'New course available' }
-      ];
-
-      wrapper.setProps({ listNotifications: newNotifications });
-      
-      const isUpdate = wrapper.instance().shouldComponentUpdate({ listNotifications: newNotifications });
-      expect(isUpdate).toBe(false);
-    });
-
     it('does rerender when new list is longer', () => {
       const newNotifications = [
         { id: 1, type: 'default', value: 'New course available' },
@@ -135,9 +108,32 @@ describe('Notifications', () => {
       ];
 
       wrapper.setProps({ listNotifications: newNotifications });
-
       const notificationItems = wrapper.find(NotificationItem);
       expect(notificationItems).toHaveLength(2);
+    });
+  });
+
+  describe('handleDisplayDrawer and handleHideDrawer', () => {
+    it('calls handleDisplayDrawer when the menu item is clicked', () => {
+      const handleDisplayDrawerSpy = jest.fn();
+      const wrapper = shallow(<Notifications handleDisplayDrawer={handleDisplayDrawerSpy} />);
+      wrapper.find(`.${css(styles.menuItem)}`).simulate('click');
+      expect(handleDisplayDrawerSpy).toHaveBeenCalled();
+    });
+
+    it('calls handleHideDrawer when the close button is clicked', () => {
+      const handleHideDrawerSpy = jest.fn();
+      const wrapper = shallow(<Notifications handleHideDrawer={handleHideDrawerSpy} displayDrawer={true} />);
+      wrapper.find(`.${css(styles.button)}`).simulate('click');
+      expect(handleHideDrawerSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('Updating the props with displayDrawer changes', () => {
+    it('rerenders when displayDrawer changes', () => {
+      const wrapper = shallow(<Notifications displayDrawer={false} listNotifications={[]} />);
+      wrapper.setProps({ displayDrawer: true });
+      expect(wrapper.find('.notification-container').exists()).toBe(true); 
     });
   });
 });

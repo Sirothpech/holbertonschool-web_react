@@ -102,12 +102,10 @@ class Notifications extends Component {
     console.log(`Notification ${id} has been marked as read`);
   }
 
-  handleClick() {
-    console.log('Close button has been clicked');
-  }
   
   shouldComponentUpdate(nextProps) {
-    return nextProps.listNotifications.length > this.props.listNotifications.length;
+    return nextProps.displayDrawer !== this.props.displayDrawer ||
+         nextProps.listNotifications.length > this.props.listNotifications.length;
   }
 
   render() {
@@ -118,8 +116,8 @@ class Notifications extends Component {
     return (
       <div className='notification-container'>
         {showMenuItem && (
-          <div className={css(styles.menuItem)}>
-            <p className={css(styles.sectionTitle)} onClick={handleDisplayDrawer}>Your notifications</p>
+          <div className={css(styles.menuItem)} onClick={handleDisplayDrawer}>
+            <p className={css(styles.sectionTitle)}>Your notifications</p>
           </div>
         )}
         

@@ -76,26 +76,27 @@ describe('isLoggedIn', () => {
   it('includes the CourseList component', () => {
     expect(wrapper.find(CourseList).exists()).toBe(true);
   });
+});
+
+describe('displayDrawer state', () => {
+  let wrapper;
+
+  beforeEach(() => {
+    wrapper = shallow(<App />);
+  });
 
   it('default state for displayDrawer is false', () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.state().displayDrawer).toEqual(false);
+    expect(wrapper.state('displayDrawer')).toEqual(false);
   });
 
-  it('displayDrawer toggle handleDisplayDrawer', () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.state().displayDrawer).toEqual(false);
-    const instance = wrapper.instance();
-    instance.handleDisplayDrawer();
-    expect(wrapper.state().displayDrawer).toEqual(true);
-  });
-
-  it('displayDrawer toggle handleDisplayDrawer and handleHideDrawer', () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.state().displayDrawer).toEqual(false);
+  it('handleDisplayDrawer sets displayDrawer to true', () => {
     wrapper.instance().handleDisplayDrawer();
-    expect(wrapper.state().displayDrawer).toEqual(true);
+    expect(wrapper.state('displayDrawer')).toEqual(true);
+  });
+
+  it('handleHideDrawer sets displayDrawer to false', () => {
+    wrapper.instance().handleDisplayDrawer();
     wrapper.instance().handleHideDrawer();
-    expect(wrapper.state().displayDrawer).toEqual(false);
+    expect(wrapper.state('displayDrawer')).toEqual(false);
   });
 });
