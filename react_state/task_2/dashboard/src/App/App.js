@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import PropTypes from 'prop-types';
 import Header from '../Header/Header'
 import Footer from '../Footer/Footer'
 import Login from '../Login/Login'
@@ -96,15 +95,18 @@ class App extends Component {
     }
   }
 
-  logIn = (email, password) => {
+  logIn(email, password) {
     this.setState({
-      user: {
-        email,
-        password,
-        isLoggedIn: true,
-      },
+      value: {
+        ...this.state.value,
+        user: {
+          email,
+          password,
+          isLoggedIn: true
+        }
+      }
     });
-  };
+  }
 
   logOut = (e) => {
     if (e) e.preventDefault();
@@ -120,7 +122,7 @@ class App extends Component {
   render() {
     const {user, displayDrawer } = this.state;
     return (
-      <AppContext.Provider value={{ user, logOut: this.logOut }}>
+      <AppContext.Provider value={value}>
       <>
         <div className={css(styles.header)}>
           <Header />
@@ -137,7 +139,7 @@ class App extends Component {
             </BodySectionWithMarginBottom>
           ) : (
             <BodySectionWithMarginBottom title="Log in to continue">
-              <Login />
+              <Login logIn={this.logIn}/>
             </BodySectionWithMarginBottom>
           )}
           <BodySection title="News from the School">
@@ -151,16 +153,6 @@ class App extends Component {
       </AppContext.Provider>
     );
   }
-}
-
-App.propTypes = {
-  isLoggedIn: PropTypes.bool,
-  logOut: PropTypes.func
-};
-
-App.defaultProps = {
-  isLoggedIn: false,
-  logOut: () => {}
 }
 
 export default App;

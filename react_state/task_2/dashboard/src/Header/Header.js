@@ -28,9 +28,9 @@ class Header extends Component {
           <h1>School dashboard</h1>
         </header>
           {user.isLoggedIn && (
-            <div id="logoutSection" className={css(styles.logoutSection)}>
-              Welcome <strong>{user.email}</strong> (<a href="#" onClick={logOut}>logout</a>)
-            </div>
+            <p id="logoutSection" className={css(styles.logoutSection)}>
+              Welcome <strong>{user.email}</strong> (<a href="#" onClick={logOut} className={css(styles.link)}>Log out</a>)
+            </p>
           )}
       </>
     );
