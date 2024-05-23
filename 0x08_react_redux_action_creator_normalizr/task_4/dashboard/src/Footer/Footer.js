@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { getFullYear, getFooterCopy } from '../utils/utils'
 import AppContext from '../App/AppContext'

@@ -9,6 +9,7 @@ import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBot
 import BodySection from '../BodySection/BodySection';
 import { getLatestNotification } from '../utils/utils';
 import AppContext from './AppContext';
+import WithLogging from '../HOC/WithLogging';
 
 const styles = StyleSheet.create({
   header: {
@@ -76,8 +77,8 @@ class App extends Component {
         isLoggedIn: false,
       },
       listNotifications: listNotifications,
-  };
-}
+    };
+  }
 
   handleDisplayDrawer = () => {
     this.setState({ displayDrawer: true });
@@ -105,13 +106,10 @@ class App extends Component {
 
   logIn(email, password) {
     this.setState({
-      value: {
-        ...this.state.value,
-        user: {
-          email,
-          password,
-          isLoggedIn: true
-        }
+      user: {
+        email,
+        password,
+        isLoggedIn: true
       }
     });
   }
@@ -134,18 +132,25 @@ class App extends Component {
   }
 
   render() {
-    const {user, displayDrawer } = this.state;
+    const { user, displayDrawer } = this.state;
+    const value = {
+      user: this.state.user,
+      displayDrawer: this.state.displayDrawer,
+      logIn: this.logIn,
+      logOut: this.logOut,
+      handleDisplayDrawer: this.handleDisplayDrawer,
+      handleHideDrawer: this.handleHideDrawer,
+      listNotifications: this.state.listNotifications,
+      markNotificationAsRead: this.markNotificationAsRead,
+    };
     return (
       <AppContext.Provider value={value}>
       <>
         <div className={css(styles.header)}>
           <Header />
-          <Notifications 
-          displayDrawer={displayDrawer}
-          handleDisplayDrawer={this.handleDisplayDrawer}
-          handleHideDrawer={this.handleHideDrawer}
-          listNotifications={this.state.listNotifications}
-          markNotificationAsRead={this.markNotificationAsRead}/>
+          <WithLogging>
+          <Notifications />
+        </WithLogging>
         </div>
         <div className={css(styles.body)}>
           {user.isLoggedIn ? (

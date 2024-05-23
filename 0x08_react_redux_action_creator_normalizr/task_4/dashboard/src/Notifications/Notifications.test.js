@@ -32,12 +32,10 @@ describe('Notifications', () => {
   describe('markAsRead', () => {
     it('calls console.log with the right message when markAsRead is called', () => {
       const consoleSpy = jest.spyOn(console, 'log');
-      const wrapper = shallow(<Notifications />);
-      const instance = wrapper.instance();
-
-      const mockId = 1;
-      instance.markAsRead(mockId);
-      expect(consoleSpy).toHaveBeenCalledWith(`Notification ${mockId} has been marked as read`);
+      const mockMarkAsRead = jest.fn(); // Mocking markAsRead function
+      const wrapper = shallow(<Notifications markAsRead={mockMarkAsRead} />); // Pass mockMarkAsRead as prop
+      wrapper.instance().markAsRead(1); // Now call markAsRead from the instance
+      expect(consoleSpy).toHaveBeenCalledWith('Notification 1 has been marked as read');
       consoleSpy.mockRestore();
     });
   });

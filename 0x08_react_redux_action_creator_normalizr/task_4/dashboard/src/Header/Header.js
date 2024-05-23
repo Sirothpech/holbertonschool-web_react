@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import logo from '../assets/holberton-logo.jpg';
 import AppContext from '../App/AppContext';

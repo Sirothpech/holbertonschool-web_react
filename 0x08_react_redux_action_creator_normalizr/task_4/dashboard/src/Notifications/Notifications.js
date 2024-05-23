@@ -98,9 +98,15 @@ export const styles = StyleSheet.create({
 });
 
 class Notifications extends PureComponent {
-
+  constructor(props) {
+    super(props);
+    this.markAsRead = this.markAsRead.bind(this);
+  }
+  markAsRead(id) {
+    console.log(`Notification ${id} has been marked as read`);
+  }
   render() {
-    const { displayDrawer, listNotifications, handleDisplayDrawer, handleHideDrawer, markNotificationAsRead } = this.props;
+    const { displayDrawer, listNotifications, handleDisplayDrawer, handleHideDrawer, markAsRead } = this.props;
     const showMenuItem = !displayDrawer || listNotifications.length === 0;
     const notificationStyle = displayDrawer ? styles.notificationVisible : styles.notificationHidden;
     
@@ -126,7 +132,7 @@ class Notifications extends PureComponent {
                       html={notification.html}
                       type={notification.type}
                       value={notification.value}
-                      markNotficationAsRead={() => markNotificationAsRead(notification.id)}
+                      markAsRead={() => markAsRead(notification.id)}
                     />
                   ))
               )}
@@ -146,7 +152,7 @@ Notifications.propTypes = {
   listNotifications: PropTypes.arrayOf(NotificationItemShape),
   handleDisplayDrawer: PropTypes.func,
   handleHideDrawer: PropTypes.func,
-  markNotificationAsRead: PropTypes.func,
+  markAsRead: PropTypes.func,
 };
 
 Notifications.defaultProps = {
@@ -154,7 +160,7 @@ Notifications.defaultProps = {
   listNotifications: [],
   handleDisplayDrawer:() => {},
   handleHideDrawer: () => {},
-  markNotificationAsRead: () => {},
+  markAsRead: () => {},
 }
 
 export default Notifications;
