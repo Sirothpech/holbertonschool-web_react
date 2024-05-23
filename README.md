@@ -6,3 +6,4 @@
 - React component
 - React inline styling
 - React state
+- React Redux action creator+normalizr
