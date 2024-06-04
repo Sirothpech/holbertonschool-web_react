@@ -8,3 +8,4 @@
 - React state
 - React Redux action creator+normalizr
 - react_redux_reducer_selector
+- react_redux_connectors_and_providers
