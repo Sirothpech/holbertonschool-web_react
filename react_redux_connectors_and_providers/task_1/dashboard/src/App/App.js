@@ -71,7 +71,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayDrawer: false,
       user: {
         email: '',
         password: '',
@@ -82,11 +81,15 @@ class App extends Component {
   }
 
   handleDisplayDrawer = () => {
-    this.setState({ displayDrawer: true });
+    this.props.dispatch({
+      type: 'DISPLAY_NOTIFICATION_DRAWER',
+    });
   }
 
   handleHideDrawer = () => {
-    this.setState({ displayDrawer: false });
+    this.props.dispatch({
+      type: 'HIDE_NOTIFICATION_DRAWER',
+    });
   }
 
   componentDidMount() {
@@ -133,10 +136,11 @@ class App extends Component {
   }
 
   render() {
-    const { user, displayDrawer } = this.state;
+    const { user } = this.state;
+    const { displayDrawer } = this.props; // Use displayDrawer from props
     const value = {
       user: this.state.user,
-      displayDrawer: this.state.displayDrawer,
+      displayDrawer: displayDrawer, // Use displayDrawer from props
       logIn: this.logIn,
       logOut: this.logOut,
       handleDisplayDrawer: this.handleDisplayDrawer,
@@ -177,9 +181,10 @@ class App extends Component {
 }
 
 // Create mapStateToProps function
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
-    isLoggedIn: state.get('isUserLoggedIn')  // Access isUserLoggedIn from the immutable state
+    isLoggedIn: state.get('isUserLoggedIn'),  // Access isUserLoggedIn from the immutable state
+    displayDrawer: state.get('isNotificationDrawerVisible') // Access isNotificationDrawerVisible from the immutable state
   };
 };
 
