@@ -4,7 +4,7 @@ import { LOGIN, LOGOUT, LOGIN_SUCCESS, LOGIN_FAILURE, DISPLAY_NOTIFICATION_DRAWE
 export const initialState = Map({
   isNotificationDrawerVisible: false,
   isUserLoggedIn: false,
-  user: {}
+  user: null // Set user initial value to null
 });
 
 export const uiReducer = (state = initialState, action) => {
@@ -18,9 +18,9 @@ export const uiReducer = (state = initialState, action) => {
     case LOGIN_FAILURE:
       return state.set('isUserLoggedIn', false);
     case LOGIN:
-      return state.set('user', action.user); // Set the user to the one passed within the action
+      return state.set('user', action.user); // Set the user property to the one passed to the action
     case LOGOUT:
-      return state.set('user', {}).set('isUserLoggedIn', false); // Set the user to null and isLoggedIn to false
+      return state.set('user', null); // Set user to null on logout
     default:
       return state;
   }
