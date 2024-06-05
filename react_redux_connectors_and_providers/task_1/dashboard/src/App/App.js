@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import { connect } from 'react-redux';  // Import connect from react-redux
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types'; // Import PropTypes
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Login from '../Login/Login';
@@ -11,7 +12,7 @@ import BodySection from '../BodySection/BodySection';
 import { getLatestNotification } from '../utils/utils';
 import AppContext from './AppContext';
 import WithLogging from '../HOC/WithLogging';
-import { displayNotificationDrawer, hideNotificationDrawer } from '../actions/uiActionCreators'; // Import action creators
+import { displayNotificationDrawer, hideNotificationDrawer } from '../actions/uiActionCreators';
 
 const styles = StyleSheet.create({
   header: {
@@ -181,6 +182,22 @@ export const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   displayNotificationDrawer,
   hideNotificationDrawer
+};
+
+// Define propTypes
+App.propTypes = {
+  isLoggedIn: PropTypes.bool,
+  displayDrawer: PropTypes.bool,
+  displayNotificationDrawer: PropTypes.func,
+  hideNotificationDrawer: PropTypes.func,
+};
+
+// Define defaultProps
+App.defaultProps = {
+  isLoggedIn: false,
+  displayDrawer: false,
+  displayNotificationDrawer: () => {},
+  hideNotificationDrawer: () => {},
 };
 
 // Connect mapStateToProps and mapDispatchToProps to the component
