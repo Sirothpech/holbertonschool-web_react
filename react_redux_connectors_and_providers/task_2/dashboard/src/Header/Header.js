@@ -3,7 +3,7 @@ import { StyleSheet, css } from 'aphrodite';
 import logo from '../assets/holberton-logo.jpg';
 import { connect } from 'react-redux'; // Import connect
 import PropTypes from 'prop-types'; // Import PropTypes
-import { logOut } from '../actions/authActions'; // Import logOut action creator
+import { logOut } from '../actions/uiActionCreators'; // Import logOut action creator
 
 const styles = StyleSheet.create({
   appHeader: {

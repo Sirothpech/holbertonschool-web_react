@@ -1,53 +1,15 @@
 import React from 'react';
-import { mount } from 'enzyme';
-import { StyleSheetTestUtils } from 'aphrodite';
-import Footer from './Footer';
-import { getFullYear, getFooterCopy } from '../utils/utils';
-import AppContext from '../App/AppContext';
-
-beforeAll(() => {
-  StyleSheetTestUtils.suppressStyleInjection();
-});
-
-afterAll(() => {
-  StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
-});
+import { shallow } from 'enzyme';
+import { Footer } from './Footer'; // Assuming Footer is exported as a named export
 
 describe('Footer', () => {
-  let wrapper;
-
-  beforeEach(() => {
-    wrapper = mount(
-      <AppContext.Provider value={{ user: { isLoggedIn: true } }}>
-        <Footer />
-      </AppContext.Provider>
-    );
-  });
-
-  it('renders without crashing', () => {
-    const wrapper = mount(
-      <AppContext.Provider value={{ user: { isLoggedIn: false } }}>
-        <Footer />
-      </AppContext.Provider>
-    );
-    expect(wrapper.exists()).toBeTruthy();
-  });
-
-  it('the link is not displayed when the user is logged out within the context', () => {
-    wrapper = mount(
-      <AppContext.Provider value={{ user: { isLoggedIn: false }, logOut: () => {} }}>
-        <Footer />
-      </AppContext.Provider>
-    );
+  it('the link is not displayed when the user is logged out', () => {
+    const wrapper = shallow(<Footer user={{ isLoggedIn: false }} />);
     expect(wrapper.containsMatchingElement(<a>Contact us</a>)).toBe(false);
   });
 
-  it('the link is displayed when the user is logged in within the context', () => {
-    wrapper = mount(
-      <AppContext.Provider value={{ user: { isLoggedIn: true }, logOut: () => {} }}>
-        <Footer />
-      </AppContext.Provider>
-    );
+  it('the link is displayed when the user is logged in', () => {
+    const wrapper = shallow(<Footer user={{ isLoggedIn: true }} />);
     expect(wrapper.containsMatchingElement(<a>Contact us</a>)).toBe(true);
   });
 });
