@@ -88,8 +88,8 @@ class App extends Component {
         <div className={css(styles.body)}>
           {isLoggedIn ? (
             <BodySectionWithMarginBottom title="Course list">
-              {/* Render CourseList component */}
-            </BodySectionWithMarginBottom>
+            <CourseList listCourses={listCourses} />
+          </BodySectionWithMarginBottom>          
           ) : (
             <BodySectionWithMarginBottom title="Log in to continue">
               <Login login={login}/>
