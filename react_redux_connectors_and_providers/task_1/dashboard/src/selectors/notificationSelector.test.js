@@ -1,6 +1,7 @@
 import { notificationReducer, initialState } from '../reducers/notificationReducer';
 import { filterTypeSelected, getNotifications, getUnreadNotifications } from './notificationSelector';
 import { FETCH_NOTIFICATIONS_SUCCESS } from '../actions/notificationActionTypes';
+import { fromJS } from 'immutable';
 
 describe('notificationSelector', () => {
   let state;
@@ -9,9 +10,9 @@ describe('notificationSelector', () => {
     const action = {
       type: FETCH_NOTIFICATIONS_SUCCESS,
       data: [
-        { id: 1, type: 'default', value: 'New course available', isRead: false },
-        { id: 2, type: 'urgent', value: 'New resume available', isRead: true },
-        { id: 3, type: 'default', value: 'New data available', isRead: false }
+        { id: '1', type: 'default', value: 'New course available', isRead: false },
+        { id: '2', type: 'urgent', value: 'New resume available', isRead: true },
+        { id: '3', type: 'default', value: 'New data available', isRead: false }
       ]
     };
     state = notificationReducer(initialState, action);
@@ -31,7 +32,7 @@ describe('notificationSelector', () => {
 
   it('getUnreadNotifications should return the list of unread notifications in a Map format', () => {
     const unreadNotifications = getUnreadNotifications(state);
-    expect(unreadNotifications.size).toEqual(3);
+    expect(unreadNotifications.size).toEqual(2);
     expect(unreadNotifications.get('1').get('isRead')).toEqual(false);
     expect(unreadNotifications.get('3').get('isRead')).toEqual(false);
   });

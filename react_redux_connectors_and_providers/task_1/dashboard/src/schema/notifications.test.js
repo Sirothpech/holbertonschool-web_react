@@ -1,12 +1,11 @@
-import { normalizeData, getAllNotificationsByUser } from './notifications';
+import { notificationsNormalizer, getAllNotificationsByUser } from './notifications';
 import notifications from '../../dist/notifications.json';
-
 
 describe('Normalized data', () => {
   let normalizedResult;
 
   beforeAll(() => {
-    normalizedResult = normalizeData(notifications);
+    normalizedResult = notificationsNormalizer(notifications);
   });
 
   it('has a correct result array', () => {
@@ -57,9 +56,8 @@ describe('Normalized data', () => {
 
   it('has the correct notifications empty for a user with no notifications', () => {
     const userId = '1234test';
-    const { entities } = normalizedResult;
     const filteredNotifications = getAllNotificationsByUser(userId);
 
-    expect(filteredNotifications).toEqual([]); 
+    expect(filteredNotifications).toEqual([]);
   });
 });
