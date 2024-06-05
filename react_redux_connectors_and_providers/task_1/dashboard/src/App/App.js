@@ -11,6 +11,7 @@ import BodySection from '../BodySection/BodySection';
 import { getLatestNotification } from '../utils/utils';
 import AppContext from './AppContext';
 import WithLogging from '../HOC/WithLogging';
+import { displayNotificationDrawer, hideNotificationDrawer } from '../actions/uiActionCreators'; // Import action creators
 
 const styles = StyleSheet.create({
   header: {
@@ -80,18 +81,6 @@ class App extends Component {
     };
   }
 
-  handleDisplayDrawer = () => {
-    this.props.dispatch({
-      type: 'DISPLAY_NOTIFICATION_DRAWER',
-    });
-  }
-
-  handleHideDrawer = () => {
-    this.props.dispatch({
-      type: 'HIDE_NOTIFICATION_DRAWER',
-    });
-  }
-
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
   }
@@ -137,14 +126,14 @@ class App extends Component {
 
   render() {
     const { user } = this.state;
-    const { displayDrawer } = this.props; // Use displayDrawer from props
+    const { displayDrawer, displayNotificationDrawer, hideNotificationDrawer } = this.props; // Destructure props
     const value = {
       user: this.state.user,
       displayDrawer: displayDrawer, // Use displayDrawer from props
       logIn: this.logIn,
       logOut: this.logOut,
-      handleDisplayDrawer: this.handleDisplayDrawer,
-      handleHideDrawer: this.handleHideDrawer,
+      handleDisplayDrawer: displayNotificationDrawer, // Use action from props
+      handleHideDrawer: hideNotificationDrawer, // Use action from props
       listNotifications: this.state.listNotifications,
       markNotificationAsRead: this.markNotificationAsRead,
     };
@@ -188,5 +177,11 @@ export const mapStateToProps = (state) => {
   };
 };
 
-// Connect mapStateToProps to the component
-export default connect(mapStateToProps)(App);
+// Create mapDispatchToProps function using shorthand notation
+const mapDispatchToProps = {
+  displayNotificationDrawer,
+  hideNotificationDrawer
+};
+
+// Connect mapStateToProps and mapDispatchToProps to the component
+export default connect(mapStateToProps, mapDispatchToProps)(App);
