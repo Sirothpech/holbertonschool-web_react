@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, css } from 'aphrodite';
-import closeIcon from '../assets/close-icon.png';
+import { connect } from 'react-redux';
+import { fetchNotifications } from '../actions/notificationActionCreators';
 import NotificationItem from './NotificationItem';
 import NotificationItemShape from './NotificationItemShape';
 
@@ -102,9 +102,15 @@ class Notifications extends PureComponent {
     super(props);
     this.markAsRead = this.markAsRead.bind(this);
   }
+
+  componentDidMount() {
+    this.props.fetchNotifications();
+  }
+
   markAsRead(id) {
     console.log(`Notification ${id} has been marked as read`);
   }
+
   render() {
     const { displayDrawer, listNotifications, handleDisplayDrawer, handleHideDrawer, markAsRead } = this.props;
     const showMenuItem = !displayDrawer || listNotifications.length === 0;
@@ -153,6 +159,7 @@ Notifications.propTypes = {
   handleDisplayDrawer: PropTypes.func,
   handleHideDrawer: PropTypes.func,
   markAsRead: PropTypes.func,
+  fetchNotifications: PropTypes.func.isRequired,
 };
 
 Notifications.defaultProps = {
@@ -163,4 +170,12 @@ Notifications.defaultProps = {
   markAsRead: () => {},
 }
 
-export default Notifications;
+const mapStateToProps = state => ({
+  listNotifications: state.notifications.get('entities').valueSeq().toJS(),
+});
+
+const mapDispatchToProps = {
+  fetchNotifications,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Notifications);
