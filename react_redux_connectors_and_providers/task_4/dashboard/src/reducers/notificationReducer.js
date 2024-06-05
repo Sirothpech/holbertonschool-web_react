@@ -8,7 +8,7 @@ export const initialState = Map({
   result: List()
 });
 
-export const notificationReducer = (state = initialState, action) => {
+const notificationReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_NOTIFICATIONS_SUCCESS:
       const addData = action.data.map(notification => ({
@@ -31,3 +31,5 @@ export const notificationReducer = (state = initialState, action) => {
       return state;
   }
 };
+
+export default notificationReducer;

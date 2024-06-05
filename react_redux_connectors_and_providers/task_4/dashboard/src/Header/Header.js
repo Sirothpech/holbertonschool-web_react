@@ -3,7 +3,7 @@ import { StyleSheet, css } from 'aphrodite';
 import logo from '../assets/holberton-logo.jpg';
 import { connect } from 'react-redux'; // Import connect
 import PropTypes from 'prop-types'; // Import PropTypes
-import { logOut } from '../actions/uiActionCreators'; // Import logOut action creator
+import { logout } from '../actions/uiActionCreators'; // Import logOut action creator
 
 const styles = StyleSheet.create({
   appHeader: {
@@ -37,7 +37,7 @@ function Header({ user, logOut }) { // Destructure user and logOut from props
       {user.isLoggedIn && (
         <p id="logoutSection" className={css(styles.logoutSection)}>
           Welcome <strong>{user.email}</strong> (
-          <a href="#" onClick={logOut} className={css(styles.link)}>Log out</a>)
+          <a href="#" onClick={logout} className={css(styles.link)}>Log out</a>)
         </p>
       )}
     </>

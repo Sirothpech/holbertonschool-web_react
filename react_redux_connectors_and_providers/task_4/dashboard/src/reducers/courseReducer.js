@@ -7,7 +7,7 @@ export const initialState = Map({
 });
 
 
-export const courseReducer = (state = initialState, action) => {
+const courseReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_COURSE_SUCCESS:
       const courses = action.data.map(course => ({
@@ -29,3 +29,5 @@ export const courseReducer = (state = initialState, action) => {
     return state;
   }
 };
+
+export default courseReducer;

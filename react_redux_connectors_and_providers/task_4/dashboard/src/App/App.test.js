@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { StyleSheetTestUtils } from 'aphrodite';
-import { initialState } from '../reducers/uiReducer';
+import { initialState as uiInitialState } from '../reducers/uiReducer';
 import App from './App';
 
 const mockStore = configureStore([]);
@@ -22,7 +22,9 @@ describe('App', () => {
 
   beforeEach(() => {
     store = mockStore({
-      uiReducer: initialState
+      courses: new Map(),
+      notifications: new Map(),
+      ui: uiInitialState
     });
 
     wrapper = shallow(
