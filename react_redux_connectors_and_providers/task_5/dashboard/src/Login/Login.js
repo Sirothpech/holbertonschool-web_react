@@ -1,90 +1,86 @@
-import React, { Component } from 'react';
+import React from "react";
+import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite';
 
-const styles = StyleSheet.create({
-  AppBody: {
-    minHeight: '30vh',
-    margin: '2rem',
-    textAlign: 'left',
+class Login extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: "",
+            password: "",
+            enableSubmit: false
+        };
+        this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
+        this.handleChangeEmail = this.handleChangeEmail.bind(this);
+        this.handleChangePassword = this.handleChangePassword.bind(this);
+        this.handleEnableSubmit = this.handleEnableSubmit.bind(this);
+    }
 
-    '@media (max-width: 900px)': {
-      maxWidth: '900px',
-      margin: '0',
-      display: 'flex',
-      flexDirection: 'column'
-    },
-  },
-  formGroup: {
-    display: 'inline',
-    '@media (max-width: 900px)': {
-      display: 'flex',
-      marginBottom: '0.5rem',
-    },
-  },
-  label: {
-    marginRight: '10px',
-  },
-  input: {
-    border: '1px solid #e8e8e8',
-    marginRight: '0.8rem',
-  },
-  button: {
-    backgroundColor: '#ffffff',
-    border: '1px solid #e8e8e8',
-    borderRadius: '3px',
-    '@media (max-width: 900px)': {
-      width: '40px',
-    },
-  },
-});
+    handleLoginSubmit(e) {
+        e.preventDefault();
+        this.props.logIn(this.state.email, this.state.password);
+    }
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      password: '',
-      enableSubmit: false
-    };
-  }
+    handleChangeEmail(newEmail) {
+        this.setState({email: newEmail}, () => {
+            if (this.state.email !== "" && this.state.password != "") this.handleEnableSubmit(true);
+            else this.handleEnableSubmit(false);
+        });
+    }
 
-  handleLoginSubmit = (e) => {
-    e.preventDefault();
-    this.props.logIn(this.state.email, this.state.password);
-  }
+    handleChangePassword(newPassword) {
+        this.setState({password: newPassword}, () => {
+            if (this.state.email !== "" && this.state.password !== "") this.handleEnableSubmit(true);
+            else this.handleEnableSubmit(false);
+        });
+    }
 
-  handleChangeEmail = (e) => {
-    this.setState({ email: e.target.value }, this.handleEnableSubmit);
-  }
+    handleEnableSubmit(isEnabled) {
+        this.setState({enableSubmit: isEnabled});
+    }
 
-  handleChangePassword = (e) => {
-    this.setState({ password: e.target.value }, this.handleEnableSubmit);
-  }
-
-  handleEnableSubmit = () => {
-    const { email, password } = this.state;
-    this.setState({ enableSubmit: email !== '' && password !== '' });
-  }
-
-  render() {
-    const { email, password, enableSubmit } = this.state;
-    return (
-      <div className={css(styles.AppBody)}>
-        <p>Login to access the full dashboard</p>
-        <form onSubmit={this.handleLoginSubmit}>
-          <div className={css(styles.formGroup)}>
-            <label className={css(styles.label)} htmlFor="email">Email:</label>
-            <input className={css(styles.input)} type="email" id="email" name="email" value={email} onChange={this.handleChangeEmail}/>
-          </div>
-          <div className={css(styles.formGroup)}>
-            <label className={css(styles.label)} htmlFor="password">Password:</label>
-            <input className={css(styles.input)} type="password" id="password" name="password" value={password} onChange={this.handleChangePassword}/>
-          </div>
-          <input type="submit" value="OK" className={css(styles.button)} disabled={!enableSubmit}></input>
-        </form>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <>
+                <p>{this.props.text}</p>
+                <form onSubmit={(e) => {this.handleLoginSubmit(e)}}>
+                    <div className={css(styles.small, styles.inline)}>
+                    <label htmlFor="email">Email:</label>
+                    <input type="email" id="email" name="email" className={css(styles.maringRight)} value={this.state.email}
+                           onChange={(e) => {this.handleChangeEmail(e.target.value)}}></input>
+                    </div>
+                    <div className={css(styles.small, styles.inline)}>
+                        <label htmlFor="password">Password:</label>
+                        <input type="password" id="password" name="password" className={css(styles.maringRight)} value={this.state.password}
+                               onChange={(e) => {this.handleChangePassword(e.target.value)}}></input>
+                    </div> 
+                    <input type='submit' value='OK' disabled={!this.state.enableSubmit}></input>
+                </form>
+            </>
+        );
+    }
 }
+
+Login.propTypes = {
+    logIn: PropTypes.func
+};
+
+Login.defaultProps = {
+    logIn: () => {}
+};
+
+const styles = StyleSheet.create({
+    maringRight: {
+        marginRight: '1rem'
+    },
+    inline: {
+        display: 'inline-block'
+    },
+    small: {
+        '@media (max-width: 900px)': {
+            display: 'block',
+        }
+    }
+});
 
 export default Login;

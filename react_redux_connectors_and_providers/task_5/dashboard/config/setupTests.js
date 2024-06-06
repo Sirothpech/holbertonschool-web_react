@@ -7,3 +7,5 @@ configure({ adapter: new Adapter() });
 Object.defineProperty(global, 'TextEncoder', {
   value: util.TextEncoder,
 });
+
+import 'jest-environment-jsdom';

@@ -1,46 +1,33 @@
-import React from 'react';
-import { StyleSheet, css } from 'aphrodite';
-import { getFullYear, getFooterCopy } from '../utils/utils';
-import { connect } from 'react-redux'; // Import connect
-import PropTypes from 'prop-types'; // Import PropTypes
+import React from "react";
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-const styles = StyleSheet.create({
-  AppFooter: {
-    fontStyle: 'italic',
-    textAlign: 'center',
-    paddingTop: '1rem',
-    borderTop: '3px solid #df354b'
-  },
-  contactUs: {
-    marginTop: '15px',
-    textAlign: 'center'
-  }
-});
-
-function Footer({ user }) { // Destructure user from props
-  return (
-    <footer className={css(styles.AppFooter)}>
-      <p>Copyright {getFullYear()} - {getFooterCopy(true)}</p>
-      {user.isLoggedIn && (
-        <p className={css(styles.contactUs)}>
-          <a href="#">Contact us</a>
-        </p>
-      )}
-    </footer>
-  );
+export function Footer(props) {
+    const { user } = props;
+    return (
+      <>
+        <p>{props.text}</p>
+        {user ? (
+          <p><a href="">Contact us</a></p>
+        ) : null}
+      </>
+    );
 }
 
-// Create mapStateToProps function
-const mapStateToProps = (state) => {
-  return {
-    user: state.user // Map the user props to the user within the Redux state
-  };
-};
-
-// Define propTypes
 Footer.propTypes = {
-  user: PropTypes.object // Define propTypes for user prop
+  text: PropTypes.string,
+  user: PropTypes.object
 };
 
-// Connect the Footer component to the mapStateToProps function
+Footer.defaultProps = {
+  text: null,
+  user: null
+};
+
+export function mapStateToProps(state) {
+  return {
+    user: state.ui.get('user')
+  };
+}
+
 export default connect(mapStateToProps)(Footer);

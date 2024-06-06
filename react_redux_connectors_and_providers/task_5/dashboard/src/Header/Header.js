@@ -1,61 +1,65 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import logo from '../assets/holberton-logo.jpg';
-import { connect } from 'react-redux'; // Import connect
-import PropTypes from 'prop-types'; // Import PropTypes
-import { logout } from '../actions/uiActionCreators'; // Import logOut action creator
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { logout } from '../actions/uiActionCreators';
 
-const styles = StyleSheet.create({
-  appHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    color: '#df354b',
-  },
-  holbertonLogo: {
-    width: '200px',
-    height: 'auto',
-  },
-  logoutSection: {
-    marginTop: '15px',
-    textAlign: 'right',
-  },
-  link: {
-    color: '#df354b',
-    textDecoration: 'none',
-    marginLeft: '5px',
-  }
-});
-
-function Header({ user, logOut }) { // Destructure user and logOut from props
-  return (
-    <>
-      <header className={css(styles.appHeader)}>
-        <img src={logo} className={css(styles.holbertonLogo)} alt="Holberton Logo" />
-        <h1>School dashboard</h1>
-      </header>
-      {user.isLoggedIn && (
-        <p id="logoutSection" className={css(styles.logoutSection)}>
-          Welcome <strong>{user.email}</strong> (
-          <a href="#" onClick={logout} className={css(styles.link)}>Log out</a>)
-        </p>
-      )}
-    </>
-  );
+class Header extends React.Component {
+    render() {
+        return (
+            <>
+                <header className={css(styles.appHeader)}>
+                    <img src={this.props.src} alt={this.props.alt} className={css(styles.appHeaderImg)}/>
+                    <h1>{this.props.text}</h1>
+                </header>
+                {this.props.user ? (
+                    <section id='logoutSection'>
+                        Welcome <strong>{this.props.user.email}</strong> <a onClick={() => {this.props.logout()}}><em>(logout)</em></a>
+                    </section>
+                ) : null}
+                
+            </>
+        );
+    }
 }
 
-// Create mapStateToProps function
-const mapStateToProps = (state) => {
-  return {
-    user: state.user // Map the user props to the user within the Redux state
-  };
-};
+const styles = StyleSheet.create({
+    appHeader: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        fontSize: '1.2rem',
+        color: '#e11d3f',
+        bordeBottom: 'solid #e11d3f'
+    },
+      
+    appHeaderImg: {
+        width: 250
+    }
+});
 
-// Define propTypes
+export function mapStateToProps(state) {
+    return {
+        user: state.ui.get('user')
+    };
+}
+
+export function mapDispatchToProps(dispatch) {
+    return {
+        logout: () => dispatch(logout())
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
+
 Header.propTypes = {
-  user: PropTypes.object, // Define propTypes for user prop
-  logOut: PropTypes.func // Define propTypes for logOut action creator
-};
+    user: PropTypes.object,
+    logout: PropTypes.func
+}
 
-// Connect the Header component to mapStateToProps and the logOut action creator
-export default connect(mapStateToProps, { logOut })(Header);
+Header.defaultProps = {
+    user: null,
+    logout: () => {}
+}
+
+export { Header };

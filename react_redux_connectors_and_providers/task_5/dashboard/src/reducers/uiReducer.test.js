@@ -1,55 +1,32 @@
-import { Map } from 'immutable';
-import { initialState, uiReducer } from './uiReducer.js';
-import { DISPLAY_NOTIFICATION_DRAWER, HIDE_NOTIFICATION_DRAWER, LOGIN, LOGOUT } from '../actions/uiActionTypes';
+import { selectCourse } from "../actions/courseActionCreators";
+import { displayNotificationDrawer, login } from "../actions/uiActionCreators";
+import { appInitialState, uiReducer } from "./uiReducer";
 
-describe('uiReducer', () => {
-  it('should return the initial state when no action is passed', () => {
-    const state = uiReducer(undefined, {});
-    expect(state.toJS()).toEqual(initialState.toJS());
-  });
-
-  it('should return the initial state when the action SELECT_COURSE is passed', () => {
-    const selectCourseAction = { type: 'SELECT_COURSE' };
-    const state = uiReducer(initialState, selectCourseAction);
-    expect(state.toJS()).toEqual(initialState.toJS());
-  });
-
-  it('should change isNotificationDrawerVisible to true when DISPLAY_NOTIFICATION_DRAWER action is passed', () => {
-    const displayNotificationDrawerAction = { type: DISPLAY_NOTIFICATION_DRAWER };
-    const newState = uiReducer(initialState, displayNotificationDrawerAction);
-    expect(newState.toJS()).toEqual({
-      ...initialState.toJS(),
-      isNotificationDrawerVisible: true
+describe('Test suite for uiReducer', () => {
+    it('Tests uiReducer when no action is passed', () => {
+        expect(uiReducer(undefined, {}).toJS()).toEqual(appInitialState);
     });
-  });
-
-  it('should change isNotificationDrawerVisible to false when HIDE_NOTIFICATION_DRAWER action is passed', () => {
-    const stateDrawerVisible = initialState.set('isNotificationDrawerVisible', true);
-    const hideNotificationDrawerAction = { type: HIDE_NOTIFICATION_DRAWER };
-    const newState = uiReducer(stateDrawerVisible, hideNotificationDrawerAction);
-    expect(newState.toJS()).toEqual({
-      ...initialState.toJS(),
-      isNotificationDrawerVisible: false
+    it('Tests uiReducer when the action SELECT_COURSE is passed', () => {
+        const action = selectCourse();
+        expect(uiReducer(undefined, action).toJS()).toEqual(appInitialState);
     });
-  });
-
-  it('should set user when LOGIN action is passed', () => {
-    const user = { email: 'test@test.com', password: 'password', isLoggedIn: true };
-    const loginAction = { type: LOGIN, user };
-    const newState = uiReducer(initialState, loginAction);
-    expect(newState.toJS()).toEqual({
-      ...initialState.toJS(),
-      user
+    it('Tests uiReducer when the action DISPLAY_NOTIFICATION_DRAWER is passed', () => {
+        const expectedState = {
+            ...appInitialState,
+            isNotificationDrawerVisible: true
+        };
+        const action = displayNotificationDrawer();
+        expect(uiReducer(undefined, action).toJS()).toEqual(expectedState);
     });
-  });
-
-  it('should set user to null when LOGOUT action is passed', () => {
-    const userState = initialState.set('user', { email: 'test@test.com', password: 'password', isLoggedIn: true });
-    const logoutAction = { type: LOGOUT };
-    const newState = uiReducer(userState, logoutAction);
-    expect(newState.toJS()).toEqual({
-      ...initialState.toJS(),
-      user: null
+    it('Tests uiReducer when the action LOGIN is passed', () => {
+        const expectedState = {
+            ...appInitialState,
+            user: {
+                email: 'hello@world.com',
+                password: 'Test123!'
+            }
+        };
+        const action = login('hello@world.com', 'Test123!');
+        expect(uiReducer(undefined, action).toJS()).toEqual(expectedState);
     });
-  });
 });

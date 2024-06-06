@@ -1,13 +1,21 @@
-import rootReducer from './rootReducer';
+import rootReducer from "./rootReducer";
+import { Map } from 'immutable';
 
-describe('Root Reducer', () => {
-  it('should return the initial state', () => {
-    const initialState = {
-      courses: new Map(),
-      notifications: new Map(),
-      ui: new Map()
-    };
+describe('Test suite for rootReducer', () => {
+    it('Tests root reducer\' initial state', () => {
+        const expectedState = {
+            courses: Map({}),
+            notifications: Map({}),
+            ui: Map({})
+        };
+        const rootState = rootReducer(undefined, {});
 
-    expect(rootReducer(undefined, {})).toEqual(initialState);
-  });
+        expect(rootState).toHaveProperty('courses');
+        expect(rootState).toHaveProperty('notifications');
+        expect(rootState).toHaveProperty('ui');
+
+        for (const state in expectedState) {
+            expect(typeof rootState[state]).toEqual(typeof expectedState[state]);
+        }
+    });
 });

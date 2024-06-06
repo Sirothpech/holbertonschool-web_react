@@ -1,32 +1,48 @@
-import { SET_LOADING_STATE, FETCH_NOTIFICATIONS_SUCCESS } from "./notificationActionTypes";
+import {
+  MARK_AS_READ,
+  SET_TYPE_FILTER,
+  SET_LOADING_STATE,
+  FETCH_NOTIFICATIONS_SUCCESS
+} from "./notificationActionTypes";
 
-const setLoadingState = (loading) => ({
-  type: SET_LOADING_STATE,
-  loading
-});
-
-const setNotifications = (notifications) => ({
-  type: FETCH_NOTIFICATIONS_SUCCESS,
-  notifications
-});
-
-const fetchNotifications = () => {
-  return async (dispatch) => {
-    dispatch(setLoadingState(true)); // Set loading state to true
-    try {
-      // Fetch notifications from /notifications.json
-      const response = await fetch("/notifications.json");
-      if (!response.ok) {
-        throw new Error("Failed to fetch notifications");
-      }
-      const data = await response.json();
-      dispatch(setNotifications(data)); // Dispatch notifications data
-    } catch (error) {
-      console.error("Error fetching notifications:", error);
-    } finally {
-      dispatch(setLoadingState(false)); // Set loading state to false regardless of success or failure
-    }
+export function markAsAread(index) {
+  return {
+      type: MARK_AS_READ,
+      index
   };
-};
+}
 
-export { setLoadingState, setNotifications, fetchNotifications };
+export function setNotificationFilter(filter) {
+  return {
+      type: SET_TYPE_FILTER,
+      filter
+  };
+}
+
+export function setLoadingState(loading) {
+  return {
+      type: SET_LOADING_STATE,
+      loading
+  };
+}
+
+export function setNotifications(data) {
+  return {
+      type: FETCH_NOTIFICATIONS_SUCCESS,
+      data
+  };
+}
+
+export function fetchNotifications() {
+  return function(dispatch) {
+      dispatch(setLoadingState(true));
+
+      return fetch('http://localhost:8564/notifications.json')
+      .then((data) => data.json())
+      .then((data) => {
+          dispatch(setNotifications(data));
+      })
+      .catch((err) => console.log(err))
+      .finally(() => dispatch(setLoadingState(false)));
+  };
+}

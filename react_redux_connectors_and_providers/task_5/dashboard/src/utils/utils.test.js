@@ -1,27 +1,16 @@
-import { getFullYear } from './utils';
-import { getFooterCopy } from './utils';
-import { getLatestNotification } from './utils';
+import { getFullYear, getFooterCopy, getLatestNotification } from "./utils";
 
-describe('getFullYear function', () => {
-  it('returns the correct year', () => {
-    const year = new Date().getFullYear();
-    expect(getFullYear()).toBe(year);
-  });
-});
-
-describe('getFooterCopy function', () => {
-  it('returns the correct message when argument is true', () => {
-    expect(getFooterCopy(true)).toBe('Holberton School');
-  });
-
-  it('returns the correct message when argument is false', () => {
-    expect(getFooterCopy(false)).toBe('Holberton School main dashboard');
-  });
-});
-
-describe('getLatestNotification function', () => {
-  it('returns the correct string', () => {
-    const expectedString = '<strong>Urgent requirement</strong> - complete by EOD';
-    expect(getLatestNotification()).toBe(expectedString);
-  });
+describe('Basic tests of utils functions', () => {
+    it('Tests the getFullYear function', () => {
+        expect(getFullYear()).toBe(new Date().getFullYear());
+    });
+    it('Tests the getFooterCopy function with false', () => {
+        expect(getFooterCopy(false)).toBe('Holberton School main dashboard');
+    });
+    it('Tests the getFooterCopy function with true', () => {
+        expect(getFooterCopy(true)).toBe('Holberton School');
+    });
+    it('Tests the getLatestNotification function', () => {
+        expect(getLatestNotification()).toBe('<strong>Urgent requirement</strong> - complete by EOD');
+    });
 });

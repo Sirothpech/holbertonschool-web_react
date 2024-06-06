@@ -1,56 +1,54 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
-import { StyleSheetTestUtils } from 'aphrodite';
-import { initialState as uiInitialState } from '../reducers/uiReducer';
-import App from './App';
+import { App, mapStateToProps } from "./App";
+import Footer from '../Footer/Footer';
+import Header from '../Header/Header';
+import Notifications from '../Notifications/Notifications';
+import { fromJS } from 'immutable';
 
-const mockStore = configureStore([]);
-
-beforeAll(() => {
-  StyleSheetTestUtils.suppressStyleInjection();
-});
-
-afterAll(() => {
-  StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
-});
-
-describe('App', () => {
-  let store;
-  let wrapper;
-
-  beforeEach(() => {
-    store = mockStore({
-      courses: new Map(),
-      notifications: new Map(),
-      ui: uiInitialState
+describe('Tests the App component', () => {
+    let wrapper;
+    beforeAll(() => {
+        wrapper = shallow(<App />);
     });
+    it('Tests that App renders without crashing', () => {
+        expect(wrapper.exists()).toBe(true);
+    });
+    it('should contain the Notifications component', () => {
+        expect(wrapper.find(Notifications)).toHaveLength(1);
+    });
+    it('should contain the Header component', () => {
+        expect(wrapper.find(Header)).toHaveLength(1);
+    });
+    it('should contain the Login component', () => {
+        expect(wrapper.find('Login')).toHaveLength(1);
+    });
+    it('should contain the Footer component', () => {
+        expect(wrapper.find(Footer)).toHaveLength(1);
+    });
+    it('checks that CourseList is not displayed', () => {
+        expect(wrapper.find('CourseList')).toHaveLength(0);
+    });
+});
 
-    wrapper = shallow(
-      <Provider store={store}>
-        <App />
-      </Provider>
-    );
-  });
+describe('Tests the App component when isLoggedIn is true', () => {
+    it('Tests that the Login component is not included.', () => {
+        const wrapper = shallow(<App isLoggedIn={true}/>);
+        expect(wrapper.find('Login')).toHaveLength(0);
+    });
+    it('should contain the Notifications component', () => {
+        const wrapper = shallow(<App isLoggedIn={true}/>);
+        expect(wrapper.find('CourseList')).toHaveLength(1);
+    });
+});
 
-  it('contains the Header component', () => {
-    expect(wrapper.find('Header').exists()).toBe(true);
-  });
-
-  it('does not display CourseList when isLoggedIn is false (default)', () => {
-    expect(wrapper.find('CourseList').exists()).toBe(false);
-  });
-
-  it('contains the Footer component', () => {
-    expect(wrapper.find('Footer').exists()).toBe(true);
-  });
-
-  it('default state for isLoggedIn is false', () => {
-    expect(wrapper.find('App').prop('isLoggedIn')).toEqual(false);
-  });
-
-  it('contains the Notifications component', () => {
-    expect(wrapper.find('Notifications').exists()).toBe(true);
-  });
+describe('Tests suite to test the mapStateToProps function', () => {
+    it('Tests that the function returns the right object when passing a specific state', () => {
+        let state = {
+            ui: fromJS({
+                isUserLoggedIn: true
+            })
+        };
+        expect(mapStateToProps(state)).toEqual({ isLoggedIn: true });
+    });
 });

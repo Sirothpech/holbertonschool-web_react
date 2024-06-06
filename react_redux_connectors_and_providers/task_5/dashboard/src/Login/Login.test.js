@@ -1,44 +1,34 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { StyleSheetTestUtils } from 'aphrodite';
-import Login from './Login';
+import Login from "./Login";
 
-beforeAll(() => {
-  StyleSheetTestUtils.suppressStyleInjection();
-});
+describe('Tests the Login component', () => {
+    it('Tests that Login renders without crashing', () => {
+        const wrapper = shallow(<Login />);
+        expect(wrapper.exists()).toBe(true);
+    });
+    it('Tests that the component renders 3 input tags and 2 label tags', () => {
+        const wrapper = shallow(<Login />);
+        expect(wrapper.find('label')).toHaveLength(2);
+        expect(wrapper.find('input')).toHaveLength(3);
+    });
+    it('Tests that the submit button is disabled by default', () => {
+        const wrapper = shallow(<Login />);
+        const button = wrapper.find('input[type="submit"]');
+        expect(button.props().disabled).toBe(true);
+    });
+    it('Tests that after changing the value of the two inputs, the button is enabled', () => {
+        const wrapper = shallow(<Login />);
+        const emailChangeEvent = { target: { value: 'hello@world.com' }}
+        const passwordChangeEvent = { target: { value: 'test123!' }}
 
-afterAll(() => {
-  StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
-});
+        const emailInput = wrapper.find('input[type="email"]');
+        emailInput.simulate('change', emailChangeEvent);
 
-describe('Login', () => {
-  let wrapper;
+        const passwordInput = wrapper.find('input[type="password"]');
+        passwordInput.simulate('change', passwordChangeEvent);
 
-  beforeEach(() => {
-    wrapper = shallow(<Login />);
-  });
-
-  it('renders without crashing', () => {
-    shallow(<Login />);
-  });
-
-  it('renders a three input tag', () => {
-    expect(wrapper.find('input').length).toBe(3);
-  });
-  
-  it('renders a two label tag', () => {
-    expect(wrapper.find('label').length).toBe(2);
-  });
-
-  it('submit button is disabled by default', () => {
-    const submitButton = wrapper.find('input[type="submit"]');
-    expect(submitButton.props().disabled).toBe(true);
-  });
-
-  it('submit button is enabled when the value of the two inputs are changed ', () => {
-    wrapper.find('input[type="email"]').simulate('change', { target: { value: 'user@test.com' } });
-    wrapper.find('input[type="password"]').simulate('change', { target: { value: 'password123' } });
-    const submitButton = wrapper.find('input[type="submit"]');
-    expect(submitButton.props().disabled).toBe(false);
-  });
+        const button = wrapper.find('input[type="submit"]');
+        expect(button.props().disabled).toBe(false);
+    });
 });
