@@ -1,5 +1,5 @@
 import { SELECT_COURSE, UNSELECT_COURSE, FETCH_COURSE_SUCCESS } from "../actions/courseActionTypes";
-import coursesNormalizer from "../schema/courses";
+import { coursesNormalizer } from "../schema/courses";
 import { Map } from 'immutable';
 
 export const courseState = [];

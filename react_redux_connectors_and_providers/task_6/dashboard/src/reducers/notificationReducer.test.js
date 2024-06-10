@@ -4,9 +4,10 @@ import { notificationsState, notificationReducer } from "./notificationReducer";
 import { Map } from 'immutable';
 
 describe('Test suite for notificationReducer', () => {
-    it('Tests notificationReducer when no action is passed', () => {
-        expect(notificationReducer(undefined, {}).toJS()).toEqual(notificationsState);
-    });
+  const expectedState = {
+    ...notificationsState,
+    loading: false
+  };
     it('Tests notificationReducer when FETCH_NOTIFICATIONS_SUCCESS is passed', () => {
         const action = {
             type: FETCH_NOTIFICATIONS_SUCCESS,

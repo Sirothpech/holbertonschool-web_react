@@ -13,8 +13,8 @@ import {
   fetchNotifications
 } from "./notificationActionCreators";
 import configureMockStore from 'redux-mock-store';
-import fetchMock from 'fetch-mock';
 import thunk from 'redux-thunk';
+import fetchMock from 'fetch-mock';
 
 const mockStore = configureMockStore([thunk]);
 

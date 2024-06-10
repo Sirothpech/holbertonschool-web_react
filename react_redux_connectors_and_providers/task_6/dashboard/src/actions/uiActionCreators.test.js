@@ -14,11 +14,10 @@ import {
   loginRequest
 } from "./uiActionCreators";
 import configureMockStore from 'redux-mock-store';
-import fetchMock from 'fetch-mock';
 import thunk from 'redux-thunk';
+import fetchMock from 'fetch-mock';
 
 const mockStore = configureMockStore([thunk]);
-
 describe('UI Action creators tests', () => {
   afterEach(() => {
       fetchMock.restore();

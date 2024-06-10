@@ -10,7 +10,7 @@ import { Map } from 'immutable';
 export const notificationsState = {
   notifications: {},
   filter: 'DEFAULT',
-  loading: false
+  loading: false,
 };
 
 export function notificationReducer(state = Map(notificationsState), action) {
