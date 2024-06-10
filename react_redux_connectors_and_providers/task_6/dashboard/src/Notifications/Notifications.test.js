@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { Notifications } from './Notifications';
+import { fromJS } from 'immutable';
 
 describe('Tests the Notifications component with an empty array', () => {
     let fetchNotifications;
@@ -47,11 +48,11 @@ describe('Tests the Notifications component', () => {
     let listNotifications;
     let fetchNotifications;
     beforeAll(() => {
-        listNotifications = [
-            { id: 1, type: 'default', value: 'New course available' },
-            { id: 2, type: 'urgent', value: 'New resume available' },
-            { id: 3, type: 'urgent', html: {__html: '<u>test</u>'} }
-        ];
+        listNotifications = fromJS([
+            { guid: 1, type: 'default', value: 'New course available' },
+            { guid: 2, type: 'urgent', value: 'New resume available' },
+            { guid: 3, type: 'urgent', html: {__html: '<u>test</u>'} }
+        ]);
     });
     beforeEach(() => {
         fetchNotifications = jest.fn();
@@ -82,12 +83,12 @@ describe('Tests the Notifications component', () => {
         jest.restoreAllMocks();
     });
     it('Tests that when updating the props of the component with a longer list, the component does rerender', () => {
-        const updatedList = [
-            {id: 1,type: 'default',value: 'New course available'},
-            {id: 2,type: 'urgent',value: 'New resume available'},
-            {id: 3,type: 'urgent',html: {__html: '<u>test</u>'}},
-            {id: 4,type: 'urgent',html: {__html: '<u>test</u>'}}
-        ];
+        const updatedList = fromJS([
+            {guid: 1,type: 'default',value: 'New course available'},
+            {guid: 2,type: 'urgent',value: 'New resume available'},
+            {guid: 3,type: 'urgent',html: {__html: '<u>test</u>'}},
+            {guid: 4,type: 'urgent',html: {__html: '<u>test</u>'}}
+        ]);
         const renderSpy = jest.spyOn(Notifications.prototype, 'render');
         const wrapper = shallow(<Notifications displayDrawer={true} listNotifications={listNotifications} fetchNotifications={fetchNotifications}/>);
 

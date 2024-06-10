@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite';
 import closeIcon from '../assets/close-icon.png';
 import NotificationItem from './NotificationItem';
-import { fetchNotifications } from '../actions/notificationActionCreators';
+import { fetchNotifications, markAsAread } from '../actions/notificationActionCreators';
+import { getUnreadNotifications } from '../selectors/notificationSelector';
 import { connect } from 'react-redux';
 
 class Notifications extends React.PureComponent {
@@ -26,11 +27,12 @@ class Notifications extends React.PureComponent {
     const menuItemStyle = css(this.props.displayDrawer ? styles.hidden : styles.menuItem);
     let content;
     let { listNotifications } = this.props;
-    let noNewNotifications = listNotifications.length === 0 || Object.keys(listNotifications).length === 0
+    let noNewNotifications = listNotifications.length === 0 || Object.keys(listNotifications).length === 0 || listNotifications.count() === 0
     if (noNewNotifications) content = <p>No new notification for now</p>;
     else {
-      content = Object.values(listNotifications).map((notif) =>
-      <NotificationItem key={notif.guid || notif.id} type={notif.type} value={notif.value} html={notif.html} markAsRead={this.props.markNotificationAsRead} id={notif.guid || notif.id}/>);
+      content = listNotifications.valueSeq().map((notif) =>
+        <NotificationItem key={notif.get('guid')} type={notif.get('type')} value={notif.get('value')} html={notif.get('html')} markAsRead={this.props.markNotificationAsRead} id={notif.get('guid')}/>
+      );
     }
     const { handleDisplayDrawer, handleHideDrawer } = this.props;
     return (
@@ -75,13 +77,14 @@ Notifications.defaultProps = {
 
 export function mapStateToProps(state) {
   return {
-    listNotifications: state.notifications.get('messages')
+    listNotifications: getUnreadNotifications(state)
   };
 }
 
 export function mapDispatchToProps(dispatch) {
   return {
     fetchNotifications: () => dispatch(fetchNotifications()),
+    markNotificationAsRead: (id) => dispatch(markAsAread(id))
   };
 }
 
